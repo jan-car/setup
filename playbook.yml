@@ -1,4 +1,3 @@
-# - hosts: wsl
 - hosts: localhost
   ### Go here to edit variables ###
   vars_files:
@@ -10,7 +9,7 @@
     - packages
     - shell
     - workspace
-    # - ops
+    # - ops  # TODO: for now... Check what we really need...
     - dev
   ### Change to your user! ###
   user: jancaron

@@ -1,3 +1,4 @@
----
+# Dotfiles (includes .zshenv and .zshrc to bootstrap zsh):
 - include_tasks: dotfiles.yml
+# Zsh installation and zsh4humans bootstrap:
 - include_tasks: zsh.yml

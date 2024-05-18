@@ -1,15 +1,5 @@
----
 - name: Create workspace directory
   file:
-    path: '{{ lookup("env", "HOME") }}/{{ repo_directory }}'
+    path: '{{ lookup("env", "HOME") }}/{{ item }}'
     state: directory
-
-- name: Create ssh s subdirectory
-  file:
-    path: '{{ lookup("env", "HOME") }}/.ssh/s'
-    state: directory
-# TODO s folder in .ssh due to zsh4humans -> find out why this is better...
-
-# - name: install workspace repos
-#   action: shell cd {{ lookup("env", "HOME") }}/{{ repo_directory}} && (test -d `basename {{ item }} .git` || git clone {{ item }})
-#   with_items: "{{ repos }}"
+  with_items: "{{ directories_in_home }}"

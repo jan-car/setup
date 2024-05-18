@@ -1,4 +1,3 @@
----
 - name: Install Python dependencies
   become: true
   apt:
@@ -10,7 +9,6 @@
     - zlib1g-dev
     - libreadline-dev
     - pipx
-    # TODO: NEEDS `pipx ensurepath` at some point! Maybe move to dev -> Python? Likely done by pulling .zshrc with PATH already set
 
 - name: Install Python
   command: /usr/bin/bash -lc ". ~/.asdf/asdf.sh && asdf install python {{ python_version }}"
@@ -18,5 +16,5 @@
 - name: Set global Python
   command: /usr/bin/bash -lc ". ~/.asdf/asdf.sh && asdf global python {{ python_version }}"
 
-- name: Install virtualenv  # TODO: Do we want this? What about poetry? Use asdf instead?
+- name: Install virtualenv via pipx  # TODO: Do we want this? What about poetry? Use asdf instead?
   command: pipx install virtualenv

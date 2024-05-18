@@ -1,4 +1,3 @@
----
 - name: Check for WSL environment
   shell: echo "$(grep WSL /proc/version)"
   register: wsl_check

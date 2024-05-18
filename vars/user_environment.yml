@@ -1,11 +1,7 @@
----
 wsl_user: jancaron
 win_user: JanCaron
-repo_directory: repos
 dotfiles_repo: jan-car/dotfiles
 dotfiles_branch: main
-
-# repos:
-#   - git@github.com:jasonwc/noobernetes.io.git
-#   - git@github.com:jasonwc/jasoncarter.io.git
-#   - git@github.com:jasonwc/carter.haus.git
+directories_in_home:
+  - repos
+  - workdir

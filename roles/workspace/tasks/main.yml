@@ -1,3 +1,4 @@
----
+# WSL configuration (if applicable):
 - include_tasks: wsl.yml
+# Other stuff (folders and such):
 - include_tasks: misc.yml

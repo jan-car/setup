@@ -1,5 +1,6 @@
----
-- name: Install JetBrains toolbox dependencies  # TODO: do we need these?
+# Reference: https://github.com/nagygergo/jetbrains-toolbox-install
+
+- name: Install JetBrains toolbox dependencies
   become: true
   apt:
     name: "{{ toolbox_dependencies }}"
@@ -18,7 +19,8 @@
   stat: path=/$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox
   register: toolbox
 
-- name: Install toolbox
+# Reduced version of script: https://github.com/nagygergo/jetbrains-toolbox-install/blob/master/jetbrains-toolbox.sh
+- name: Install JetBrains toolbox
   shell: |
     set -x; cd "$(mktemp -d)" &&
     
@@ -37,7 +39,7 @@
     chmod +x "$INSTALL_DIR/jetbrains-toolbox"
   when: not toolbox.stat.exists
 
-- name: Create a symbolic link to the toolbox
+- name: Create a symbolic link to the JetBrains toolbox
   file:
     src: "$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
     dest: '{{ lookup("env", "HOME") }}/.local/bin/jetbrains-toolbox'
