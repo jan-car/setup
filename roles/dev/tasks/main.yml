@@ -1,0 +1,6 @@
+# Language Version Management
+- include_tasks: asdf.yml
+# Languages
+- include_tasks: python.yml
+# JetBrains Toolbox
+- include_tasks: toolbox.yml

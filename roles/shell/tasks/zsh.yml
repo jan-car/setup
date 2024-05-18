@@ -1,39 +1,167 @@
 ---
-- name: install zsh and friends
-  become: True
-  become_user: root
-  package: name={{ item }}
-  with_items:
-    - git-core
-    - powerline
-    - zsh
+- name: Install zsh
+  become: true
+  apt:
+    name: zsh
 
-- name: change user shell to zsh
-  become: yes
-  become_user: root
-  command: chsh -s /bin/zsh {{ user }} 
+- name: Make zsh default shell
+  become: true
+  command: usermod --shell /bin/zsh {{ wsl_user }}
 
-- name: Check for oh-my-zsh
-  stat: path=/$HOME/.oh-my-zsh
-  register: ohmyzsh
+# zsh4humans bootstraps zsh and its configurations from .zshenv & .zshrc as soon as a new terminal is started!
 
-- name: install oh-my-zsh
-  shell: bash -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  when: not ohmyzsh.stat.exists
 
-- name: Check for dircolors
-  stat: path=/$HOME/.dircolors
-  register: dircolors
 
-- name: Install dircolors
-  command: curl https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark --output /$HOME/.dircolors
-  when: not dircolors.stat.exists
 
-- name: Check for powerlevel10k
-  stat: path=/$HOME/.oh-my-zsh/custom/themes/powerlevel10k
-  register: powerlevel10k
 
-- name: Clone powerlevel10k
-  command: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/themes/powerlevel10k
-  when: not powerlevel10k.stat.exists
+
+
+
+
+
+# - name: Bootstrap zsh4humans from.zsh* files
+#   command: "zsh -is </dev/null"
+
+# - name: install zsh and friends
+#   become: True
+#   # become_user: root
+#   package: name={{ item }}
+#   with_items:
+#     # - git-core
+#     # - powerline
+#     - zsh
+
+# - name: zsh4humans
+#   stat: path=/$HOME/.oh-my-zsh
+#   register: zsh4humans
+
+# - name: Get zsh4humans install script
+#   ansible.builtin.get_url:
+#     url: "https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install"
+#     dest: ~/install_zsh4humans.sh
+#   register: install_zsh4humans
+
+# - name: Make install script executable
+#   ansible.builtin.file:
+#     path: "~/install_zsh4humans.sh"
+#     state: touch
+#     mode: '0755'
+
+# - name: Install zsh4humans
+#   ignore_errors: yes
+#   # no_log: true
+#   ansible.builtin.expect:
+#     command: /usr/bin/sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)" #/bin/bash -c "/home/jancaron/install_zsh4humans.sh || true"
+#     timeout: 60
+#     echo: true
+#     responses:
+#       'What kind of .*keyboard.* are you using': "2" # (1) Mac (2) PC
+#       'What .*keybindings.* do you prefer': "1"  # (1) Standard (2) vi
+#       'Do you want .*zsh.* to always run in .*tmux.*': "n"
+#       'Do you use .*direnv.*': "y"
+#       'What should I do with them': "1"  # Move zsh files to backup dir
+#       'Choose installation directory for .*Zsh.*': "1"  # /usr/local/bin/zsh
+#       'Add .*zsh.* to .*shells.*': "y"
+#       'Change login shell': "y"
+#       '.*Zsh for Humans.* uses .*Powerlevel10k.* to print command line prompt': "q"  # abort setup, done via .p10k.zsh
+#       # 'To run Powerlevel10k configuration wizard right now, type': ''
+#       # 'Does this look like a .*diamond.*': "y"
+#       # 'Does this look like a .*lock.*': "y"
+#       # 'Does this look like an .*upwards arrow.*': "y"
+#       # 'Do all these icons .*fit between the crosses.*': "y"
+#       # 'Prompt Style': "2"
+#       # 'Character Set': "1"
+#       # 'Prompt Color': "3"
+#       # 'Show current time': "2"
+#       # 'Prompt Separators': "1"
+#       # 'Prompt Heads': "1"
+#       # 'Prompt Tails': "3"
+#       # 'Prompt Height': "2"
+#       # 'Prompt Connection': "2"
+#       # 'Prompt Frame': "1"
+#       # 'Prompt Spacing': "2"
+#       # 'Icons': "2"
+#       # 'Prompt Flow': "2"
+#       # 'Enable Transient Prompt': "y1"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from: https://github.com/romkatv/zsh4humans
+# - name: Install zsh4humans
+#   ansible.builtin.expect:
+#     command: /bin/bash -c "sh -c \"$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)\""
+#     responses:
+#       What kind of keyboard are you using?:
+#         - 2  # (1) Mac (2) PC
+#       What keybindings do you prefer?:
+#         - 1  # (1) Standard (2) vi
+#       Do you want zsh to always run in tmux?:
+#         - n
+#       Do you use direnv?:
+#         - y
+
+#- name: change user shell to zsh  TODO: not needed, oh-my-zsh does this (?)
+#  become: yes
+#  # become_user: root
+#  # command: chsh -s /bin/zsh {{ user }}
+#  command: chsh -s /bin/zsh {{ wsl_user }}
+
+# - name: Check for oh-my-zsh
+#   stat: path=/$HOME/.oh-my-zsh
+#   register: ohmyzsh
+
+# - name: install oh-my-zsh
+#   shell: bash -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+#   when: not ohmyzsh.stat.exists
+
+# - name: Check for powerlevel10k
+#   stat: path=/$HOME/.oh-my-zsh/custom/themes/powerlevel10k
+#   register: powerlevel10k
+
+# - name: Clone powerlevel10k
+#   command: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/themes/powerlevel10k
+#   when: not powerlevel10k.stat.exists
+
+# - name: Check for fzf-zsh-plugin
+#   stat: path=/$HOME/.oh-my-zsh/custom/plugins/fzf-zsh-plugin
+#   register: fzfzshplugin
+
+# - name: Clone fzf-zsh-plugin
+#   command: git clone --depth=1 https://github.com/unixorn/fzf-zsh-plugin.git {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/plugins/fzf-zsh-plugin
+#   when: not fzfzshplugin.stat.exists
+
+# - name: Check for zsh-autosuggestions
+#   stat: path=/$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+#   register: zshautosuggestions
+
+# - name: Clone zsh-autosuggestions
+#   command: git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions.git {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+#   when: not zshautosuggestions.stat.exists
+
+# - name: Check for zsh-syntax-highlighting
+#   stat: path=/$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+#   register: zshsyntaxhighlighting
+
+# - name: Clone zsh-syntax-highlighting
+#   command: git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting.git {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+#   when: not zshsyntaxhighlighting.stat.exists
+
+# - name: Check for xxh-plugin-zsh-ohmyzsh
+#   stat: path=/$HOME/.oh-my-zsh/custom/plugins/xxh-plugin-zsh-ohmyzsh
+#   register: xxhpluginzshohmyzsh
+
+# - name: Clone xxh-plugin-zsh-ohmyzsh
+#   command: git clone --depth=1 https://github.com/xxh/xxh-plugin-zsh-ohmyzsh.git {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/plugins/xxh-plugin-zsh-ohmyzsh
+#   when: not xxhpluginzshohmyzsh.stat.exists
 

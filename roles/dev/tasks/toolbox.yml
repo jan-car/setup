@@ -1,0 +1,46 @@
+---
+- name: Install JetBrains toolbox dependencies  # TODO: do we need these?
+  become: true
+  apt:
+    name: "{{ toolbox_dependencies }}"
+  vars:
+    toolbox_dependencies:
+    - libfuse2
+    - libgtk-3-bin
+    - libxi6
+    - libxtst6
+    - libxrender1
+    - libfontconfig
+    - mesa-utils
+    - tar
+
+- name: Check for jetbrains-toolbox
+  stat: path=/$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox
+  register: toolbox
+
+- name: Install toolbox
+  shell: |
+    set -x; cd "$(mktemp -d)" &&
+    
+    echo -e "\e[94mFetching the URL of the latest version...\e[39m" &&
+    ARCHIVE_URL=$(curl -s 'https://data.services.jetbrains.com/products/releases?code=TBA&latest=true&type=release' | grep -Po '"linux":.*?[^\\]",' | awk -F ':' '{print $3,":"$4}'| sed 's/[", ]//g') &&
+    ARCHIVE_FILENAME=$(basename "$ARCHIVE_URL") &&
+
+    echo -e "\e[94mDownloading $ARCHIVE_FILENAME...\e[39m" &&
+    wget -q --show-progress -cO "./$ARCHIVE_FILENAME" "$ARCHIVE_URL" &&
+
+    echo -e "\e[94mExtracting to $INSTALL_DIR...\e[39m" &&
+    INSTALL_DIR="$HOME/.local/share/JetBrains/Toolbox/bin" &&
+    mkdir -p "$INSTALL_DIR" &&
+    mkdir -p "$HOME/.local/bin" &&
+    tar -xzf "./$ARCHIVE_FILENAME" -C "$INSTALL_DIR" --strip-components=1 &&
+    chmod +x "$INSTALL_DIR/jetbrains-toolbox"
+  when: not toolbox.stat.exists
+
+- name: Create a symbolic link to the toolbox
+  file:
+    src: "$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox"
+    dest: '{{ lookup("env", "HOME") }}/.local/bin/jetbrains-toolbox'
+    owner: "{{ wsl_user }}"
+    group: "{{ wsl_user }}"
+    state: link

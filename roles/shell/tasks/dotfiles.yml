@@ -1,13 +1,47 @@
 ---
-# TODO: Refactor all of this lol
-- name: Clone dotfiles, unless present
-  shell: cd && (test -d `basename git@github.com:{{ dotfiles_repo }}.git .git` || git clone git@github.com:{{ dotfiles_repo }}.git dotfiles)
+- name: Check if dotfiles is present
+  shell: echo "$(git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME rev-parse --is-inside-work-tree)" || echo "false"
+  register: dotfiles_present
 
-- name: Pull latest dotfiles
-  shell: cd {{ lookup("env", "HOME") }}/dotfiles && git checkout {{ dotfiles_branch }} && git pull
+#- name: Check for wsl-notify-send
+#  stat: path="$HOME/.dotfiles"
+#  register: dotfiles_present
 
-- name: Install dotfiles
-  shell: cd {{ lookup("env", "HOME") }}/dotfiles && {{ dotfiles_command }}
+- name: Is dotfiles repo present?
+  debug:
+    msg: "{{ dotfiles_present.stdout }}"
 
-- name: Run PlugInstall in Vim
-  shell: vim +'PlugInstall --sync' +qa
+- name: Clone dotfiles
+  shell: |
+    cd {{ lookup("env", "HOME") }}
+    git clone --bare "https://github.com/{{ dotfiles_repo }}.git" ".dotfiles"
+  when: dotfiles_present.stdout == "false"
+
+#- name: Clone dotfiles, unless present
+#  shell: cd {{ lookup("env", "HOME") }} && (git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME rev-parse --is-inside-work-tree || git clone --bare https://github.com/{{ dotfiles_repo }}.git .dotfiles)
+#  register: dotfiles
+
+- name: Configure dotfiles repo
+  shell: |
+    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME remote set-url --push origin "git@github.com:{{ dotfiles_repo }}.git"
+    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config remote.origin.fetch "+refs/heads/*:refs/remote/origin/*"
+    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config branch.main.remote origin
+    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config branch.main.merge refs/heads/main
+  when: dotfiles_present.stdout == "false"
+#dotfiles checkout -f main
+
+#- name: Set upstream
+#  shell: git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME push -u origin main
+
+- name: Checkout main
+  shell: |
+    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME fetch origin
+    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout -f main
+  when: dotfiles_present.stdout == "false"
+  # TODO: Remove -f for security reasons!!!
+
+#- name: Install dotfiles
+#  shell: cd {{ lookup("env", "HOME") }}/{{ repo_directory }}/dotfiles && {{ dotfiles_command }}
+
+
+# git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME

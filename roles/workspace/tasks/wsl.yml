@@ -1,0 +1,35 @@
+---
+- name: Check for WSL environment
+  shell: echo "$(grep WSL /proc/version)"
+  register: wsl_check
+
+- name: Create a symbolic link to the Windows home folder
+  file:
+    src: "/mnt/c/Users/{{ win_user }}"
+    dest: '{{ lookup("env", "HOME") }}/winhome'
+    owner: "{{ wsl_user }}"
+    group: "{{ wsl_user }}"
+    state: link
+
+- name: Check for wsl-notify-send
+  stat: path="/mnt/c/Users/{{ win_user }}/.wsl/wsl-notify-send"
+  register: wslnotifysend
+  when: wsl_check.stdout != ""
+
+- name: Create .wsl directory
+  file:
+    path: "/mnt/c/Users/{{ win_user }}/.wsl"
+    state: directory
+  when:
+    - wsl_check.stdout != ""
+    - not wslnotifysend.stat.exists
+
+# https://github.com/stuartleeks/wsl-notify-send
+- name: Install wsl-notify-send
+  shell: |
+    cd /tmp/
+    curl -fsSLO "https://github.com/stuartleeks/wsl-notify-send/releases/download/v0.1.871612270/wsl-notify-send_windows_amd64.zip"
+    unzip "./wsl-notify-send_windows_amd64.zip" -d "/mnt/c/Users/{{ win_user }}/.wsl/wsl-notify-send"
+  when:
+    - wsl_check.stdout != ""
+    - not wslnotifysend.stat.exists

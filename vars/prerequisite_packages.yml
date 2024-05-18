@@ -1,8 +1,11 @@
 ---
 prerequisite_packages:
-  - vim
-  - git
+  - bat
   - curl
-  - tmux
+  - exa
+  - git
+  - hub
+  - keychain
+  - nala
+  - podman
   - unzip
-  - fzf
