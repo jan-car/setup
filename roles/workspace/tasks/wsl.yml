@@ -23,6 +23,13 @@
     - wsl_check.stdout != ""
     - not wslnotifysend.stat.exists
 
+- name: Create .wsl backup directory
+  file:
+    path: "/mnt/c/Users/{{ win_user }}/.wsl/backup"
+    state: directory
+  when:
+    - wsl_check.stdout != ""
+
 # https://github.com/stuartleeks/wsl-notify-send
 - name: Install wsl-notify-send
   shell: |
