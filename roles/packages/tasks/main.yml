@@ -13,3 +13,7 @@
   become: true
   apt:
     name: "{{ prerequisite_packages }}"
+
+- name: Install defined pipx tools
+  command: /usr/bin/bash -lc "pipx install {{ item }}"
+  with_items: "{{ pipx_tools}}"

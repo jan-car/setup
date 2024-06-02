@@ -19,10 +19,7 @@
     - zlib1g-dev
 
 - name: Install Python
-  command: /usr/bin/bash -lc ". ~/.asdf/asdf.sh && asdf install python {{ python_version }}"
+  command: /usr/bin/bash -lc "eval \"$(/usr/bin/mise activate bash)\" && mise use --global python@{{ python_version }}"
 
-- name: Set global Python
-  command: /usr/bin/bash -lc ". ~/.asdf/asdf.sh && asdf global python {{ python_version }}"
-
-- name: Install virtualenv via pipx  # TODO: Do we want this? What about poetry? Use asdf instead?
-  command: pipx install virtualenv
+- name: Install poetry completions
+  command: /usr/bin/bash -lc "poetry completions zsh > ~/.cache/zsh4humans/v5/zsh-completions/src/_poetry"

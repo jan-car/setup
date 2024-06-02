@@ -1,7 +1,6 @@
 prerequisite_packages:
   - bat
   - curl
-  - direnv
   - exa
   - git
   - hub
@@ -10,5 +9,9 @@ prerequisite_packages:
   - pipx
   - podman
   - ripgrep
-  - tldr
   - unzip
+
+pipx_tools:
+  - poetry
+  - tldr
+  - virtualenv

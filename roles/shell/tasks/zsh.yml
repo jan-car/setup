@@ -7,19 +7,6 @@
   become: true
   command: usermod --shell /bin/zsh {{ wsl_user }}
 
-# TODO: Move all/most comments to README.md
-
-# TODO: Check previous oh-my-zsh plugins and see if they are still useful. If yes, add them to .zshrc.
-
-# zsh4humans bootstraps zsh and its configurations from .zshenv & .zshrc as soon as a the first zsh terminal is started!
-# zsh4humans from: https://github.com/romkatv/zsh4humans
-
-# zsh4humans also already takes care of direnv integration, which apparently also works with asdf out of the box!
-# use `venv-init` function (defined in `.zshaliases`) to initialize a virtualenv in the current directory.
-# Without zsh4humans, one could use the asdf-direnv plugin to achieve the same effect:
-# - https://github.com/asdf-community/asdf-direnv
-# - https://dev.to/frost/how-i-set-up-my-python-projects-using-asdf-and-direnv-4o67
-# - https://yeray.dev/python/direnv-asdf-python-virtualenv
-# A good general overview about Python virtual environments:
-# - https://realpython.com/python-virtual-environments-a-primer/
-# - https://dev.to/bowmanjd/python-tools-for-managing-virtual-environments-3bko
+# Bootstrap command taken from: https://github.com/romkatv/zsh4humans/issues/94#issuecomment-764452003
+- name: Bootstrap zsh4humans
+  command: /usr/bin/bash -lc "script -qec 'zsh -is </dev/null' /dev/null"
