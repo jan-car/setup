@@ -5,10 +5,18 @@
   vars:
     python_dependencies:
     - build-essential
-    - libssl-dev
-    - zlib1g-dev
+    - libbz2-dev
+    - libffi-dev
+    - liblzma-dev
+    - libncurses5-dev
     - libreadline-dev
-    - pipx
+    - libsqlite3-dev
+    - libssl-dev
+    - libxml2-dev
+    - libxmlsec1-dev
+    - llvm
+    - tk-dev
+    - zlib1g-dev
 
 - name: Install Python
   command: /usr/bin/bash -lc ". ~/.asdf/asdf.sh && asdf install python {{ python_version }}"

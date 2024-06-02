@@ -1,10 +1,14 @@
 prerequisite_packages:
   - bat
   - curl
+  - direnv
   - exa
   - git
   - hub
   - keychain
   - nala
+  - pipx
   - podman
+  - ripgrep
+  - tldr
   - unzip

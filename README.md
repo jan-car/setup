@@ -1,3 +1,10 @@
+https://github.com/jasonwc/setup
+
+wsl --export Ubuntu "C:\Users\JanCaron\.wsl\backup\ubuntu-backup-2024-05.tar"
+
+https://medium.com/codex/setting-up-regular-automatic-backup-of-your-windows-subsystem-for-linux-wsl2-data-using-task-b36d2b2519dd
+
+Alternatively: backup `ext4.vhdx` Drive in "C:\Users\JanCaron\AppData\Local\Packages\CanonicalGroupLimited.Ubuntu_79rhkp1fndgsc\LocalState"
 # Setup
 Ansible Playbooks for setting up an ops/ruby/elixir focused workstation.
 
