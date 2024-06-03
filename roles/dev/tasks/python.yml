@@ -22,4 +22,4 @@
   command: /usr/bin/bash -lc "eval \"$(/usr/bin/mise activate bash)\" && mise use --global python@{{ python_version }}"
 
 - name: Install poetry completions
-  command: /usr/bin/bash -lc "poetry completions zsh > ~/.cache/zsh4humans/v5/zsh-completions/src/_poetry"
+  command: /usr/bin/bash -lc "~/.local/bin/poetry completions zsh > ~/.cache/zsh4humans/v5/zsh-completions/src/_poetry"

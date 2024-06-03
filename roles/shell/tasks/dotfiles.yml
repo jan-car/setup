@@ -1,14 +1,14 @@
 # Main idea for dotfile handling from: https://www.youtube.com/watch?v=tBoLDpTWVOM
 
 - name: Check if dotfiles repo is present
-  shell: echo "$(git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME rev-parse --is-inside-work-tree)" || echo "false"
+  shell: echo "$(git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME rev-parse --is-inside-work-tree)"
   register: dotfiles_present
 
 - name: Clone dotfiles repo
   shell: |
     cd {{ lookup("env", "HOME") }}
     git clone --bare "https://github.com/{{ dotfiles_repo }}.git" ".dotfiles"
-  when: dotfiles_present.stdout == "false"
+  when: dotfiles_present.stdout != "true"
   # Explanation - bare git repos: https://www.youtube.com/watch?v=8aZW9mYOxhc
 
 - name: Configure dotfiles repo
@@ -17,10 +17,10 @@
     git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config remote.origin.fetch "+refs/heads/*:refs/remote/origin/*"
     git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config branch.main.remote origin
     git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config branch.main.merge refs/heads/main
-  when: dotfiles_present.stdout == "false"
+  when: dotfiles_present.stdout != "true"
 
 - name: Checkout dotfiles repo main branch
   shell: |
     git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME fetch origin
     git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout main
-  when: dotfiles_present.stdout == "false"
+  when: dotfiles_present.stdout != "true"
