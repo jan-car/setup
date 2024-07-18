@@ -1,3 +1,7 @@
+apt_repositories:
+  - "ppa:dldash/core"
+  # for docker-color-output
+
 prerequisite_packages:
   - bat
   - curl
