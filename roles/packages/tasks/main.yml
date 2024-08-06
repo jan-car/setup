@@ -4,20 +4,16 @@
     repo: "{{ item }}"
   with_items: "{{ apt_repositories }}"
 
-- name: Update package list
+- name: Update and upgrade all installed packages
   become: true
-  package:
-    update_cache: yes
-
-- name: Upgrade all packages
-  become: true
-  package:
-    name: "*"
-    state: latest
+  ansible.builtin.apt:
+    upgrade: dist
+    force_apt_get: yes
+    autoremove: yes
 
 - name: Install defined prerequisite packages
   become: true
-  apt:
+  ansible.builtin.apt:
     name: "{{ prerequisite_packages }}"
 
 - name: Install defined pipx tools

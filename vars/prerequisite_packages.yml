@@ -5,10 +5,12 @@ apt_repositories:
 prerequisite_packages:
   - bat
   - curl
+  - dos2unix
   - exa
   - git
   - hub
   - keychain
+  - kubecolor
   - nala
   - pipx
   - podman
