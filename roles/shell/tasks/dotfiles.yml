@@ -24,3 +24,23 @@
     git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME fetch origin
     git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout main
   when: dotfiles_present.stdout != "true"
+
+- name: Create .zshrc_local file
+  copy:
+    content: | 
+      # Repository directory:
+      export REPO_DIR="/home/{{ wsl_user }}/repos"
+      
+      # Use Windows default Browser:
+      export BROWSER="/mnt/c/Users/{{ win_user }}/AppData/Local/Vivaldi/Application/vivaldi.exe"
+    dest: $HOME/.zshrc_local
+    force: false
+
+- name: Create .zshaliases_local file
+  copy:
+    content: | 
+      #####################
+      ### LOCAL ALIASES ###
+      #####################
+    dest: $HOME/.zshaliases_local
+    force: false

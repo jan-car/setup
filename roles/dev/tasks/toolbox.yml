@@ -20,6 +20,7 @@
     - libxtst6
     - mesa-utils
     - tar
+    - xdg-utils
     - x11-common
     - x11-utils
     - x11-xserver-utils

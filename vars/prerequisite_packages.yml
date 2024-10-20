@@ -4,6 +4,7 @@ apt_repositories:
 
 prerequisite_packages:
   - bat
+  - bashtop
   - curl
   - dos2unix
   - eza
