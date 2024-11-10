@@ -6,6 +6,7 @@ prerequisite_packages:
   - bat
   - bashtop
   - curl
+  - docker-color-output
   - dos2unix
   - eza
   - git
