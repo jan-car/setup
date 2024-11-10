@@ -38,9 +38,6 @@
 
 - name: Create .zshaliases_local file
   copy:
-    content: | 
-      #####################
-      ### LOCAL ALIASES ###
-      #####################
+    content: "### LOCAL ALIASES ###"
     dest: $HOME/.zshaliases_local
     force: false
