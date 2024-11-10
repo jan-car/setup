@@ -1,3 +1,5 @@
+Forked and based on 
+
 https://github.com/jasonwc/setup
 
 wsl --export Ubuntu "C:\Users\JanCaron\.wsl\backup\ubuntu-backup-2024-05.tar"
@@ -8,9 +10,13 @@ Alternatively: backup `ext4.vhdx` Drive in "C:\Users\JanCaron\AppData\Local\Pack
 # Setup
 Ansible Playbooks for setting up an ops/ruby/elixir focused workstation.
 
+
+
+
+
 Used on:
 - [WSL2](https://devblogs.microsoft.com/commandline/announcing-wsl-2/) with the [Ubuntu app](https://www.microsoft.com/en-us/p/ubuntu/9nblggh4msv6).
-- [Multipass](https://github.com/CanonicalLtd/multipass) on Windows running latest Ubuntu.
+
 
 ## (Required) Setting up a Linux Environment
 There are a couple easy ways to get to a clean Linux environment on Windows: multipass and WSL.
