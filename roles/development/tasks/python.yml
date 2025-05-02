@@ -5,18 +5,18 @@
   vars:
     python_dependencies:
     - build-essential
-    - libbz2-development
-    - libffi-development
-    - liblzma-development
-    - libncurses5-development
-    - libreadline-development
-    - libsqlite3-development
-    - libssl-development
-    - libxml2-development
-    - libxmlsec1-development
+    - libbz2-dev
+    - libffi-dev
+    - liblzma-dev
+    - libncurses5-dev
+    - libreadline-dev
+    - libsqlite3-dev
+    - libssl-dev
+    - libxml2-dev
+    - libxmlsec1-dev
     - llvm
-    - tk-development
-    - zlib1g-development
+    - tk-dev
+    - zlib1g-dev
 
 - name: Install Python
   command: /usr/bin/bash -lc "eval \"$(/usr/bin/mise activate bash)\" && mise use --global python@{{ python_version }}"
