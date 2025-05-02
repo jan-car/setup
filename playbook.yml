@@ -9,7 +9,7 @@
     - packages
     - shell
     - workspace
-    - ops
-    - dev
+    - orchestration
+    - development
   ### Change to your user! ###
   user: jancaron

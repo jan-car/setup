@@ -12,7 +12,7 @@
     - libgtk-3-bin
     - libx11-6
     - libx11-data
-    - libx11-dev
+    - libx11-development
     - libx11-protocol-perl
     - libx11-xcb1
     - libxi6
@@ -24,8 +24,8 @@
     - x11-common
     - x11-utils
     - x11-xserver-utils
-    - x11proto-core-dev
-    - x11proto-dev
+    - x11proto-core-development
+    - x11proto-development
 
 - name: Check for jetbrains-toolbox
   stat: path=/$HOME/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox

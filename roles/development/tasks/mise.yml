@@ -11,7 +11,7 @@
 - name: Add mise apt source repository into sources list
   become: true
   ansible.builtin.apt_repository:
-    repo: deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main
+    repo: deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.development/deb stable main
     state: present
 
 - name: Update package list

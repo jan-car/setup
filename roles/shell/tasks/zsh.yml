@@ -9,4 +9,4 @@
 
 # Bootstrap command taken from: https://github.com/romkatv/zsh4humans/issues/94#issuecomment-764452003
 - name: Bootstrap zsh4humans
-  command: /usr/bin/bash -lc "script -qec 'zsh -is </dev/null' /dev/null"
+  command: /usr/bin/bash -lc "script -qec 'zsh -is </development/null' /development/null"
