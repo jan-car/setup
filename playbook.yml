@@ -9,7 +9,7 @@
     - packages
     - shell
     - workspace
-    # - ops  # TODO: for now... Check what we really need...
+    - ops
     - dev
   ### Change to your user! ###
   user: jancaron
