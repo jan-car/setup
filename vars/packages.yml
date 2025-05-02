@@ -1,5 +1,12 @@
-apt_repositories:
-  - "ppa:dldash/core"
+apt_deb_repos:
+  - name: mise
+    key_url: https://mise.jdx.dev/gpg-key.pub
+    repo_url: https://mise.jdx.dev/deb
+    distribution: stable
+    channel: main
+
+apt_ppa_repos:
+  - dldash/core
   # for docker-color-output
 
 apt_packages:
@@ -13,6 +20,7 @@ apt_packages:
   - hub
   - keychain
   - kubecolor
+  - mise
   - nala
   - podman
   - ripgrep

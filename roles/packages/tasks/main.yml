@@ -1,8 +1,22 @@
-- name: Add apt repositories
+- name: Add apt signing key to keyring
+  ansible.builtin.apt_key:
+    url: "{{ item.key_url }}"
+    keyring: "/etc/apt/keyrings/{{ item.name }}-archive-keyring.gpg"
+  loop: "{{ apt_deb_repos }}"
+
+- name: Add apt deb source repository into sources list
   become: true
   ansible.builtin.apt_repository:
-    repo: "{{ item }}"
-  with_items: "{{ apt_repositories }}"
+    repo: "deb [signed-by=/etc/apt/keyrings/{{ item.name }}-archive-keyring.gpg] {{ item.repo_url }} {{ item.distribution }} {{ item.channel }}"
+    state: present
+  loop: "{{ apt_deb_repos }}"
+
+- name: Add apt ppa source repository into sources list
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "ppa:{{ item }}"
+    state: present
+  loop: "{{ apt_ppa_repos }}"
 
 - name: Update and upgrade all installed packages
   become: true

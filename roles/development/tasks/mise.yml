@@ -2,28 +2,6 @@
 # https://mise.jdx.dev
 # https://blog.devops.dev/how-i-got-rid-of-asdf-direnv-and-pyenv-all-at-once-95cf18942c75
 
-- name: Add mise apt signing key to keyring
-  become: true
-  ansible.builtin.apt_key:
-    url: https://mise.jdx.dev/gpg-key.pub
-    keyring: /etc/apt/keyrings/mise-archive-keyring.gpg
-
-- name: Add mise apt source repository into sources list
-  become: true
-  ansible.builtin.apt_repository:
-    repo: deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.development/deb stable main
-    state: present
-
-- name: Update package list
-  become: true
-  package:
-    update_cache: yes
-
-- name: Install mise
-  become: true
-  apt:
-    name: mise
-
 # Needed for mise shell completions, see: https://usage.jdx.dev/cli/
 - name: Install usage for mise shell completions
   command: /usr/bin/bash -lc "eval \"$(/usr/bin/mise activate bash)\" && mise use --global usage"
