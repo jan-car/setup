@@ -1,8 +1,8 @@
 - hosts: localhost
   ### Go here to edit variables ###
   vars_files:
-    - vars/prerequisite_packages.yml
-    - vars/user_environment.yml
+    - vars/packages.yml
+    - vars/user.yml
     - vars/versions.yml
   ### Comment out roles you don't need ###
   roles:
