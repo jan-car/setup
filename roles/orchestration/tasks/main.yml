@@ -16,11 +16,12 @@
   when: not krew.stat.exists
 
 - name: Get installed krew plugins
-  command: "kubectl krew list"
+  command: /usr/bin/bash -lc "kubectl krew list"
   register: "krew_plugins"
+  changed_when: false
 
 - name: Install krew plugins
-  command: "kubectl krew install {{ item }}"
+  command: /usr/bin/bash -lc "kubectl krew install {{ item }}"
   when: "item|string not in krew_plugins.stdout_lines"
   with_items:
     - ctx

@@ -18,5 +18,11 @@
     - tk-dev
     - zlib1g-dev
 
-- name: Install Python
+- name: Check if python for mise is installed
+  command: /usr/bin/bash -lc "mise list"
+  register: mise_list
+  changed_when: false
+
+- name: Install python for mise
   command: /usr/bin/bash -lc "eval \"$(/usr/bin/mise activate bash)\" && mise use --global python@{{ python_version }}"
+  when: "not mise_list.stdout_lines | select('search', '^python') | list"

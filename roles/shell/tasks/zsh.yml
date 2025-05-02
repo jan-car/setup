@@ -3,10 +3,17 @@
   apt:
     name: zsh
 
+- name: Check if zsh is the default shell
+  command: "/usr/bin/bash -lc \"getent passwd {{ wsl_user }} | cut -d: -f7\""
+  register: current_shell
+  changed_when: false
+
 - name: Make zsh the default shell
   become: true
   command: usermod --shell /bin/zsh {{ wsl_user }}
+  when: current_shell.stdout != "/bin/zsh"
 
 # Bootstrap command taken from: https://github.com/romkatv/zsh4humans/issues/94#issuecomment-764452003
 - name: Bootstrap zsh4humans
   command: /usr/bin/bash -lc "script -qec 'zsh -is </dev/null' /dev/null"
+  changed_when: false

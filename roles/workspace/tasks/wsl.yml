@@ -1,6 +1,7 @@
 - name: Check for WSL environment
   shell: echo "$(grep WSL /proc/version)"
   register: wsl_check
+  changed_when: false
 
 - name: Create a symbolic link to the Windows home folder
   file:

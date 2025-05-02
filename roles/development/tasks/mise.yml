@@ -3,11 +3,29 @@
 # https://blog.devops.dev/how-i-got-rid-of-asdf-direnv-and-pyenv-all-at-once-95cf18942c75
 
 # Needed for mise shell completions, see: https://usage.jdx.dev/cli/
-- name: Install usage for mise shell completions
-  command: /usr/bin/bash -lc "eval \"$(/usr/bin/mise activate bash)\" && mise use --global usage"
+- name: Check if usage for mise is installed
+  command: /usr/bin/bash -lc "mise list"
+  register: mise_list
+  changed_when: false
 
-- name: Configure mise
+- name: Install usage for mise
+  command: /usr/bin/bash -lc "eval \"$(/usr/bin/mise activate bash)\" && mise use --global usage"
+  register: mise_usage
+  when: "not mise_list.stdout_lines | select('search', '^usage') | list"
+
+- name: Check mise experimental setting
+  command: /usr/bin/bash -lc "mise settings experimental"
+  register: mise_experimental
+  changed_when: false
+
+- name: Configure mise experimental setting
   command: /usr/bin/bash -lc "eval \"$(/usr/bin/mise activate bash)\" && mise settings set experimental true"
+  when: "mise_experimental.stdout != 'true'"
+
+- name: Check if mise completion is installed
+  stat: path=/$HOME/.cache/zsh4humans/v5/zsh-completions/src/_mise
+  register: mise_completion
 
 - name: Install mise completions
   command: /usr/bin/bash -lc "mise completion zsh > ~/.cache/zsh4humans/v5/zsh-completions/src/_mise"
+  when: not mise_completion.stat.exists

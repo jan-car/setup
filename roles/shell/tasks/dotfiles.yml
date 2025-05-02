@@ -3,6 +3,7 @@
 - name: Check if dotfiles repo is present
   shell: echo "$(git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME rev-parse --is-inside-work-tree)"
   register: dotfiles_present
+  changed_when: false
 
 - name: Clone dotfiles repo
   shell: |
