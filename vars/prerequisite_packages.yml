@@ -2,11 +2,11 @@ apt_repositories:
   - "ppa:dldash/core"
   # for docker-color-output
 
-prerequisite_packages:
+apt_packages:
   - bat
   - bashtop
   - curl
-  - docker-color-output
+  # - docker-color-output
   - dos2unix
   - eza
   - git
@@ -14,12 +14,16 @@ prerequisite_packages:
   - keychain
   - kubecolor
   - nala
-  - pipx
   - podman
   - ripgrep
+  - snapd
   - unzip
 
-pipx_tools:
-  - poetry
+snap_packages:
+  - name: kubectl
+    classic: true
+  - name: helm
+    classic: true
+
+uv_tools:
   - tldr
-  - virtualenv
