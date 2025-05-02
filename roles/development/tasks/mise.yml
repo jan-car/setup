@@ -2,12 +2,12 @@
 # https://mise.jdx.dev
 # https://blog.devops.dev/how-i-got-rid-of-asdf-direnv-and-pyenv-all-at-once-95cf18942c75
 
-# Needed for mise shell completions, see: https://usage.jdx.dev/cli/
-- name: Check if usage for mise is installed
+- name: Get list of installed mise tools
   command: /usr/bin/bash -lc "mise list"
   register: mise_list
   changed_when: false
 
+# Needed for mise shell completions, see: https://usage.jdx.dev/cli/
 - name: Install usage for mise
   command: /usr/bin/bash -lc "eval \"$(/usr/bin/mise activate bash)\" && mise use --global usage"
   register: mise_usage
