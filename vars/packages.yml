@@ -6,7 +6,7 @@ apt_packages:
   - bat
   - bashtop
   - curl
-  # - docker-color-output
+  - docker-color-output
   - dos2unix
   - eza
   - git
