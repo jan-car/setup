@@ -29,3 +29,27 @@
     - pod-dive
     - tail
     - view-utilization
+
+- name: Check if k9s is already installed
+  stat:
+    path: "/usr/bin/k9s"
+  register: k9s_stat
+
+- name: Download K9s .deb package
+  get_url:
+    url: https://github.com/derailed/k9s/releases/latest/download/k9s_linux_amd64.deb
+    dest: /tmp/k9s_linux_amd64.deb
+  when: not k9s_stat.stat.exists
+
+- name: Install K9s .deb package
+  become: true
+  apt:
+    deb: /tmp/k9s_linux_amd64.deb
+    state: present
+  when: not k9s_stat.stat.exists
+
+- name: Remove the downloaded package
+  file:
+    path: /tmp/k9s_linux_amd64.deb
+    state: absent
+  when: not k9s_stat.stat.exists
