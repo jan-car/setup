@@ -20,3 +20,9 @@
     content: |
       python-preference = "only-system"
   when: not uv_toml_file.stat.exists
+
+# Create folder needed for "mise python sync --uv" to put symlinks into:
+- name: Ensure '~/.local/share/uv/python' directory exists
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.local/share/uv/python"
+    state: directory
