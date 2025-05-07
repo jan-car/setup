@@ -39,21 +39,3 @@
     classic: "{{ item.classic | default(false) }}"
     state: present
   loop: "{{ snap_packages }}"
-
-- name: Check for uv
-  stat: path=/$HOME/.local/bin/uv
-  register: uv
-
-- name: Install uv
-  command: /usr/bin/bash -lc "curl -LsSf https://astral.sh/uv/install.sh | sh"
-  when: not uv.stat.exists
-
-- name: Get installed uv tools
-  command: /usr/bin/bash -lc "uv tool list"
-  register: uv_tools_installed
-  changed_when: false
-
-- name: Install defined uv tools
-  command: /usr/bin/bash -lc "uv tool install {{ item }}"
-  when: "item|string not in uv_tools_installed.stdout_lines|map('regex_replace', '^\\s*-?\\s*', '')|list"
-  with_items: "{{ uv_tools }}"

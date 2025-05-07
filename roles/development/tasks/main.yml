@@ -1,6 +1,6 @@
-# Language Version Management
+# Tool Version Management
 - include_tasks: mise.yml
-# Languages
-- include_tasks: python.yml
+# Python tooling
+- include_tasks: uv.yml
 # JetBrains Toolbox
 - include_tasks: toolbox.yml

@@ -3,7 +3,6 @@
   vars_files:
     - vars/packages.yml
     - vars/user.yml
-    - vars/versions.yml
   ### Comment out roles you don't need ###
   roles:
     - packages

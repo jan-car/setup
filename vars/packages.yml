@@ -33,5 +33,11 @@ snap_packages:
   - name: helm
     classic: true
 
+mise_tools:
+  - usage
+  - uv
+  - python
+  - node
+
 uv_tools:
   - tldr
