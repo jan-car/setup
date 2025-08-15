@@ -8,21 +8,27 @@
   when: "not uv_list.stdout_lines | select('search', '^' + item) | list"
   with_items: "{{ uv_tools }}"
 
+- name: Ensure '~/.config/uv' directory exists
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/uv"
+    state: directory
+    mode: '0755'
+
 - name: Check if uv.toml config file exists
   ansible.builtin.stat:
-    path: ~/.config/uv/uv.toml
+    path: "{{ lookup('env', 'HOME') }}/.config/uv/uv.toml"
   register: uv_toml_file
 
 # "only-system" means uv will not install its own "managed" python (everything else, incl. mise python is "system" here)
 - name: Create uv.toml config file
   ansible.builtin.copy:
-    dest: ~/.config/uv/uv.toml
+    dest: "{{ lookup('env', 'HOME') }}/.config/uv/uv.toml"
     content: |
       python-preference = "only-system"
   when: not uv_toml_file.stat.exists
 
 # Create folder needed for "mise python sync --uv" to put symlinks into:
 - name: Ensure '~/.local/share/uv/python' directory exists
-  file:
+  ansible.builtin.file:
     path: "{{ lookup('env', 'HOME') }}/.local/share/uv/python"
     state: directory
